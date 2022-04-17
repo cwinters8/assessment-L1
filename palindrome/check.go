@@ -1,26 +1,30 @@
 package palindrome
 
 import (
+	"math"
 	"regexp"
 	"strings"
 )
 
 func IsPalindrome(s string) (bool, error) {
-	lower := strings.ToLower(s)
 	regex, err := regexp.Compile(`\W`)
 	if err != nil {
 		return false, err
 	}
-	bytes := regex.ReplaceAll([]byte(lower), []byte(""))
-	lower = string(bytes)
-	var reversed []string
-	for _, l := range strings.Split(lower, "") {
-		reversed = insertAtBeginning(l, reversed)
-	}
-	return strings.Join(reversed, "") == lower, nil
-}
+	length := len(s)
+	halfLength := int(math.Round(float64(length) / 2))
+	compareIdx := 0
+	for i := length - 1; i >= halfLength; i-- {
+		if regex.Match([]byte{s[i]}) || regex.Match([]byte{s[compareIdx]}) {
+			continue
+		}
+		currentLetter := strings.ToLower(string(s[i]))
+		compareLetter := strings.ToLower(string(s[compareIdx]))
 
-func insertAtBeginning(item string, slice []string) []string {
-	newSlice := []string{item}
-	return append(newSlice, slice...)
+		if currentLetter != compareLetter {
+			return false, nil
+		}
+		compareIdx++
+	}
+	return true, nil
 }
