@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"assessment/fizzbuzz"
 	"assessment/palindrome"
 )
 
@@ -16,4 +17,5 @@ func main() {
 		fmt.Printf("is %s a palindrome? %v\n", s, check)
 	}
 
+	fizzbuzz.FizzBuzzBangBong(285)
 }
